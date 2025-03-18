@@ -1,0 +1,108 @@
+@startuml
+entity BoatRental{
+    Name : string
+}
+
+entity Boat {
+    +ID : int
+    Name : string
+    Typ_ID : int
+    Kapazitaet : int
+    Verfuegbarkeit : boolean
+}
+
+entity Customer {
+    +ID : int
+    Name : string
+    Adresse : string
+    Telefonnummer : string
+    Email : string
+}
+
+entity Lease {
+    +ID : int
+    Boot_ID : int
+    Kunde_ID : int
+    Mietbeginn : Date
+    Mietende : Date
+    Preis : double
+}
+
+entity Payment {
+    +ID : int
+    Betrag : double
+    Zahlungsdatum : Date
+    Zahlungsmethode : string
+    Mietvertrag_ID : int
+}
+
+entity Employee {
+    +ID : int
+    Name : string
+    Rolle : string
+    Telefonnummer : string
+}
+
+entity Reservation {
+    +ID : int
+    Boot_ID : int
+    Kunde_ID : int
+    Reservierungsdatum : Date
+    Zeitraum : string
+}
+
+entity BoatType {
+    +ID : int
+    Name : string
+    Beschreibung : string
+    Maximale_Kapazitaet : int
+}
+
+entity Extras {
+    +ID : int
+    Name : string
+    Beschreibung : string
+    Preis : double
+}
+
+entity Yacht {
+    +ID : int
+    Name : string
+    Beschreibung : string
+    Preis : double
+}
+
+entity Sailboat {
+    +ID : int
+    Name : string
+    Beschreibung : string
+    Preis : double
+}
+
+entity Boat {
+    +ID : int
+    Name : string
+    Beschreibung : string
+    Preis : double
+}
+
+
+' Beziehungen
+BoatRental -- "1..*" Customer
+BoatRental -- "1..*" Employee
+
+Customer -- "1..*" Reservation
+Employee -- "1..*" Reservation
+
+Reservation -- "1..*" Lease
+Lease -- "1..1" Payment
+
+Lease -- "1..*" Boat
+
+Boat -- "*..1" BoatType
+Boat -- "1..*" Extras
+
+
+
+
+@enduml
