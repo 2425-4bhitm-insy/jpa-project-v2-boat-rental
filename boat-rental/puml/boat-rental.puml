@@ -1,95 +1,80 @@
 @startuml
-entity BoatRental{
-    Name : string
-}
-
 entity Boat {
-    +ID : int
-    Name : string
-    Typ_ID : int
-    Kapazitaet : int
-    Verfuegbarkeit : boolean
+    boat_id : BigInt
+    boat_name : String
+    typ_id : BigInt
+    boat_isRented : boolean
 }
 
 entity Customer {
-    +ID : int
-    Name : string
-    Adresse : string
-    Telefonnummer : string
-    Email : string
+    customer_id : BigInt
+    name : String
+    address : String
+    telephoneNumber : String
+    email : String
 }
 
 entity Lease {
-    +ID : int
-    Boot_ID : int
-    Kunde_ID : int
-    Mietbeginn : Date
-    Mietende : Date
-    Preis : double
+    lease_id : BigInt
+    boot_id : BigInt
+    customer_id : BigInt
+    rental_begin : LocalDate
+    rental_end : LocalDate
+    price : double
 }
 
 entity Payment {
-    +ID : int
-    Betrag : double
-    Zahlungsdatum : Date
-    Zahlungsmethode : string
-    Mietvertrag_ID : int
+    payment_id : BigInt
+    amount : double
+    payment_date : LocalDate
+    lease_id : BigInt
 }
 
 entity Employee {
-    +ID : int
-    Name : string
-    Rolle : string
-    Telefonnummer : string
+    employee_id : BigInt
+    name : String
+    role : String
+    telephoneNumber : String
 }
 
 entity Reservation {
-    +ID : int
-    Boot_ID : int
-    Kunde_ID : int
-    Reservierungsdatum : Date
-    Zeitraum : string
+    reservation_id : BigInt
+    boat_id : BigInt
+    customer_id : BigInt
+    reservation_start_date : LocalDate
+    reservation_end_date : LocalDate
 }
 
 entity BoatType {
-    +ID : int
-    Name : string
-    Beschreibung : string
-    Maximale_Kapazitaet : int
+    boatType_id : BigInt
+    boat_name : String
 }
 
 entity Extras {
-    +ID : int
-    Name : string
-    Beschreibung : string
-    Preis : double
+    extra : BigInt
+    name : String
+    description : String
+    price : double
 }
 
 entity Yacht {
-    +ID : int
-    Name : string
-    Beschreibung : string
-    Preis : double
+    yacht_id : BigInt
+    name : String
+    description : String
+    price : double
+    capacity : int
 }
 
 entity Sailboat {
-    +ID : int
-    Name : string
-    Beschreibung : string
-    Preis : double
-}
-
-entity Boat {
-    +ID : int
-    Name : string
-    Beschreibung : string
-    Preis : double
+    sailboat_id : int
+    name : String
+    description : String
+    price : double
+    capacity : int
 }
 
 
 ' Beziehungen
-BoatRental -- "1..*" Customer
-BoatRental -- "1..*" Employee
 
 Customer -- "1..*" Reservation
 Employee -- "1..*" Reservation
