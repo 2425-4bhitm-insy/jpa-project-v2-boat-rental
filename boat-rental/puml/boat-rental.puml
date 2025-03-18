@@ -66,7 +66,15 @@ entity Yacht {
 }
 
 entity Sailboat {
-    sailboat_id : int
+    sailboat_id : BigInt
+    name : String
+    description : String
+    price : double
+    capacity : int
+}
+
+entity Motorboats {
+    motorboat_id : BigInt
     name : String
     description : String
     price : double
