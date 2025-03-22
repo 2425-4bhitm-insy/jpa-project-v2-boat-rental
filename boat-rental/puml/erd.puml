@@ -1,0 +1,52 @@
+@startuml
+entity Boat {
+}
+
+entity Customer {
+}
+
+entity Lease {
+}
+
+entity Payment {
+}
+
+entity Employee {
+}
+
+entity Reservation {
+}
+
+entity BoatType {
+}
+
+entity Extras {
+}
+
+entity Yacht {
+}
+
+entity Sailboat {
+}
+
+entity Motorboats {
+}
+
+
+' Beziehungen
+
+Customer -- "1..*" Reservation
+Employee -- "1..*" Reservation
+
+Reservation -- "1..*" Lease
+Lease -- "1..1" Payment
+
+Lease -- "1..*" Boat
+
+Boat -- "*..1" BoatType
+Boat -- "1..*" Extras
+
+
+
+
+@enduml
