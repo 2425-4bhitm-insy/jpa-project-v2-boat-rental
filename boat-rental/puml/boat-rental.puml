@@ -1,13 +1,13 @@
 @startuml
 entity Boat {
-    boat_id : BigInt
-    boat_name : String
-    typ_id : BigInt
-    boat_isRented : boolean
+    boat_id : BigInteger
+    name : String
+    typ_id : BigInteger
+    isRented : boolean
 }
 
 entity Customer {
-    customer_id : BigInt
+    customer_id : BigInteger
     name : String
     address : String
     telephoneNumber : String
@@ -15,50 +15,50 @@ entity Customer {
 }
 
 entity Lease {
-    lease_id : BigInt
-    boot_id : BigInt
-    customer_id : BigInt
+    lease_id : BigInteger
+    boot_id : BigInteger
+    customer_id : BigInteger
     rental_begin : LocalDate
     rental_end : LocalDate
     price : double
 }
 
 entity Payment {
-    payment_id : BigInt
+    payment_id : BigInteger
     amount : double
     payment_date : LocalDate
-    lease_id : BigInt
+    lease_id : BigInteger
 }
 
 entity Employee {
-    employee_id : BigInt
+    employee_id : BigInteger
     name : String
     role : String
     telephoneNumber : String
 }
 
 entity Reservation {
-    reservation_id : BigInt
-    boat_id : BigInt
-    customer_id : BigInt
+    reservation_id : BigInteger
+    boat_id : BigInteger
+    customer_id : BigInteger
     reservation_start_date : LocalDate
     reservation_end_date : LocalDate
 }
 
 entity BoatType {
-    boatType_id : BigInt
+    boatType_id : BigInteger
     boat_name : String
 }
 
 entity Extras {
-    extra : BigInt
+    extra : BigInteger
     name : String
     description : String
     price : double
 }
 
 entity Yacht {
-    yacht_id : BigInt
+    yacht_id : BigInteger
     name : String
     description : String
     price : double
@@ -66,7 +66,7 @@ entity Yacht {
 }
 
 entity Sailboat {
-    sailboat_id : BigInt
+    sailboat_id : BigInteger
     name : String
     description : String
     price : double
@@ -74,7 +74,7 @@ entity Sailboat {
 }
 
 entity Motorboats {
-    motorboat_id : BigInt
+    motorboat_id : BigInteger
     name : String
     description : String
     price : double
