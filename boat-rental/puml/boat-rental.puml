@@ -2,7 +2,6 @@
 entity Boat {
     boat_id : long
     name : String
-    typ_id : long
     isRented : boolean
 }
 
@@ -14,13 +13,13 @@ entity Customer {
     email : String
 }
 
-entity Verleihartikel {
-  artikel_id : long
+entity RentalItems {
+  item_id : long
 }
 
 entity Lease {
     reservation_id : long
-    artikel_id: long
+    item_id: long
 }
 
 entity Payment {
@@ -52,24 +51,18 @@ entity Extras {
 }
 
 entity Yacht {
-    yacht_id : long
-    name : String
     description : String
     price : double
     capacity : int
 }
 
 entity Sailboat {
-    sailboat_id : long
-    name : String
     description : String
     price : double
     capacity : int
 }
 
-entity Motorboats {
-    motorboat_id : long
-    name : String
+entity Motorboat {
     description : String
     price : double
     capacity : int
@@ -84,10 +77,10 @@ Employee -- "1..*" Reservation
 Reservation -- "1..*" Lease
 Reservation -- "1..1" Payment
 
-Lease -- "1..*" Verleihartikel
+Lease -- "1..*" RentalItems
 
-Verleihartikel <|-- Boat
-Verleihartikel <|-- Extras
+RentalItems <|-- Boat
+RentalItems <|-- Extras
 
 
 Boat <|-- Motorboats
