@@ -45,11 +45,6 @@ entity Reservation {
     reservation_end_date : LocalDate
 }
 
-entity BoatType {
-    boatType_id : BigInteger
-    boat_name : String
-}
-
 entity Extras {
     extra : BigInteger
     name : String
@@ -92,10 +87,11 @@ Lease -- "1..1" Payment
 
 Lease -- "1..*" Boat
 
-Boat -- "*..1" BoatType
 Boat -- "1..*" Extras
 
-
+Boat <|-- Motorboats
+Boat <|-- Sailboat
+Boat <|-- Yacht
 
 
 @enduml
