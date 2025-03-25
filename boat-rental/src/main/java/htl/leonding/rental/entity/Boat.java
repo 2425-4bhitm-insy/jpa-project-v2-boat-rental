@@ -1,4 +1,4 @@
-package htl.leonding.rental.boundary.entity;
+package htl.leonding.rental.entity;
 
 import jakarta.persistence.*;
 
