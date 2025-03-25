@@ -1,59 +1,58 @@
 @startuml
 entity Boat {
-    boat_id : BigInteger
+    boat_id : long
     name : String
-    typ_id : BigInteger
+    typ_id : long
     isRented : boolean
 }
 
 entity Customer {
-    customer_id : BigInteger
+    customer_id : long
     name : String
     address : String
     telephoneNumber : String
     email : String
 }
 
+entity Verleihartikel {
+  artikel_id : long
+}
+
 entity Lease {
-    lease_id : BigInteger
-    boot_id : BigInteger
-    customer_id : BigInteger
-    rental_begin : LocalDate
-    rental_end : LocalDate
-    price : double
+    reservation_id : long
+    artikel_id: long
 }
 
 entity Payment {
-    payment_id : BigInteger
+    reservation_id: long
     amount : double
     payment_date : LocalDate
-    lease_id : BigInteger
 }
 
 entity Employee {
-    employee_id : BigInteger
+    employee_id : long
     name : String
     role : String
     telephoneNumber : String
 }
 
 entity Reservation {
-    reservation_id : BigInteger
-    boat_id : BigInteger
-    customer_id : BigInteger
+    reservation_id : long
+    customer_id : long
+    employee_id : long
     reservation_start_date : LocalDate
     reservation_end_date : LocalDate
 }
 
 entity Extras {
-    extra : BigInteger
+    extra : long
     name : String
     description : String
     price : double
 }
 
 entity Yacht {
-    yacht_id : BigInteger
+    yacht_id : long
     name : String
     description : String
     price : double
@@ -61,7 +60,7 @@ entity Yacht {
 }
 
 entity Sailboat {
-    sailboat_id : BigInteger
+    sailboat_id : long
     name : String
     description : String
     price : double
@@ -69,7 +68,7 @@ entity Sailboat {
 }
 
 entity Motorboats {
-    motorboat_id : BigInteger
+    motorboat_id : long
     name : String
     description : String
     price : double
@@ -83,11 +82,13 @@ Customer -- "1..*" Reservation
 Employee -- "1..*" Reservation
 
 Reservation -- "1..*" Lease
-Lease -- "1..1" Payment
+Reservation -- "1..1" Payment
 
-Lease -- "1..*" Boat
+Lease -- "1..*" Verleihartikel
 
-Boat -- "1..*" Extras
+Verleihartikel <|-- Boat
+Verleihartikel <|-- Extras
+
 
 Boat <|-- Motorboats
 Boat <|-- Sailboat
