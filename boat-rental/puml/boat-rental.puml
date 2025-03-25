@@ -3,6 +3,9 @@ entity Boat {
     boat_id : long
     name : String
     isRented : boolean
+    description : String
+    price : double
+    capacity : int
 }
 
 entity Customer {
@@ -51,21 +54,18 @@ entity Extras {
 }
 
 entity Yacht {
-    description : String
-    price : double
-    capacity : int
+    rooms: int
+    extraBoat: int
 }
 
 entity Sailboat {
-    description : String
-    price : double
-    capacity : int
+    sails: int
+    type: SailboatType
 }
 
 entity Motorboat {
-    description : String
-    price : double
-    capacity : int
+    motors: int
+    material: String
 }
 
 
