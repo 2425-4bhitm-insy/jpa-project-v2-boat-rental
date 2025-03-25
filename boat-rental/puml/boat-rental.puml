@@ -83,7 +83,7 @@ RentalItems <|-- Boat
 RentalItems <|-- Extras
 
 
-Boat <|-- Motorboats
+Boat <|-- Motorboat
 Boat <|-- Sailboat
 Boat <|-- Yacht
 
