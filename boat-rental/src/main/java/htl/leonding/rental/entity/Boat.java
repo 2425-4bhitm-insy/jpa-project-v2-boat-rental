@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.math.BigInteger;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity(name = "br_boat")
-public abstract class Boat {
+public abstract class Boat extends RentalItems {
 
     //TODO Add attributes and methodes to class Boat
     @Id
