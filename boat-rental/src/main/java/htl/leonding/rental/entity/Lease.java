@@ -2,18 +2,16 @@ package htl.leonding.rental.entity;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "br_lease")
 public class Lease {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn
     Reservation reservation;
 
     @ManyToOne
-    @JoinColumn
     RentalItems rentalItems;
 
     public Lease() {
@@ -21,8 +19,8 @@ public class Lease {
     }
 
     public Lease(Reservation reservation, RentalItems rentalItems) {
-        this.reservation = reservation;
-        this.rentalItems = rentalItems;
+        setRentalItems(rentalItems);
+        setReservation(reservation);
     }
 
     public void setId(Long id) {
