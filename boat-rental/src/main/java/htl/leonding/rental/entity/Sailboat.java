@@ -27,4 +27,13 @@ public class Sailboat extends Boat {
     public void setSailboatType(SailboatType sailboatType) {
         this.sailboatType = sailboatType;
     }
+
+    public Sailboat(String name, boolean isRented, String description, double price, int capacity,
+                 int sails, SailboatType sailboatType) {
+        super(name, isRented, description, price, capacity);
+        this.sails = sails;
+        this.sailboatType = sailboatType;
+    }
+
+    public Sailboat() {}
 }
