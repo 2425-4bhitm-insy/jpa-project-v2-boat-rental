@@ -28,4 +28,12 @@ public class Yacht extends Boat {
         this.extraBoats = extraBoats;
     }
 
+    public Yacht(String name, boolean isRented, String description, double price, int capacity,
+                 int rooms, int extraBoats) {
+        super(name, isRented, description, price, capacity);
+        this.rooms = rooms;
+        this.extraBoats = extraBoats;
+    }
+
+    public Yacht() {}
 }
