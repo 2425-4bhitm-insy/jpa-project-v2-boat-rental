@@ -27,4 +27,13 @@ public class Motorboat extends Boat {
     public void setMaterial(String material) {
         this.material = material;
     }
+
+    public Motorboat(String name, boolean isRented, String description, double price, int capacity,
+                    int motors, String material) {
+        super(name, isRented, description, price, capacity);
+        this.motors = motors;
+        this.material = material;
+    }
+
+    public Motorboat() {}
 }
