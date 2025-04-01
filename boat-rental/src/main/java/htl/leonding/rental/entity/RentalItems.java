@@ -1,16 +1,12 @@
 package htl.leonding.rental.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity(name = "br_rentalItems")
 public abstract class RentalItems {
-
-    //TODO Add attributes and methodes
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public void setId(Long id) {
