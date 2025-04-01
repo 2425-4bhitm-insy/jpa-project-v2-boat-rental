@@ -7,23 +7,32 @@ import java.math.BigInteger;
 @Entity(name = "br_boat")
 public abstract class Boat {
 
-    //TODO Add attributes and methodes
+    //TODO Add attributes and methodes to class Boat
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long boat_id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "isRented")
-    private Boolean isRented;
+    private boolean isRented;
 
-    public long getId() {
-        return id;
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "price")
+    private double price;
+
+    @Column(name = "capacity")
+    private int capacity;
+
+    public long getBoat_id() {
+        return boat_id;
     }
 
-//    public void setId(long id) {
-//        this.id = id;
+//    public void setBoat_id(long boat_id) {
+//        this.boat_id = boat_id;
 //    }
 
     public String getName() {
@@ -34,19 +43,45 @@ public abstract class Boat {
         this.name = name;
     }
 
-    public Boolean getRented() {
+    public boolean isRented() {
         return isRented;
     }
 
-    public void setRented(Boolean rented) {
+    public void setRented(boolean rented) {
         isRented = rented;
     }
 
-    public Boat() {}
+    public String getDescription() {
+        return description;
+    }
 
-    public Boat(String name, Boolean isRented) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public Boat(){}
+
+    public Boat(String name, boolean isRented, String description, double price, int capacity) {
         setName(name);
         setRented(isRented);
-
+        setDescription(description);
+        setPrice(price);
+        setCapacity(capacity);
     }
 }
