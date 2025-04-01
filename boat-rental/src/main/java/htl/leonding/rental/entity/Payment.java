@@ -4,11 +4,10 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-@Entity
+@Entity(name = "br_payment")
 public class Payment {
 
     @ManyToOne
-    @JoinColumn
     Reservation reservation;
 
     @Column (name = "amount")
