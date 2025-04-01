@@ -8,8 +8,11 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long customer_id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
 
     @Column(name = "address")
     private String address;
@@ -28,12 +31,20 @@ public class Customer {
         return customer_id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAddress() {
@@ -60,8 +71,9 @@ public class Customer {
         this.email = email;
     }
 
-    public Customer(String name, String address, String telephoneNumber, String email) {
-        setName(name);
+    public Customer(String firstname, String lastname, String address, String telephoneNumber, String email) {
+        setFirstname(firstname);
+        setLastname(lastname);
         setAddress(address);
         setTelephoneNumber(telephoneNumber);
         setEmail(email);

@@ -10,7 +10,8 @@ entity Boat {
 
 entity Customer {
     customer_id : long
-    name : String
+    firstname : String
+    lastname: String
     address : String
     telephoneNumber : String
     email : String
@@ -33,7 +34,8 @@ entity Payment {
 
 entity Employee {
     employee_id : long
-    name : String
+    firstname : String
+    lastname: String
     role : String
     telephoneNumber : String
 }

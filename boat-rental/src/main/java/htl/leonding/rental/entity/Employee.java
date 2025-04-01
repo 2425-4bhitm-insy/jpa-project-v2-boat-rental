@@ -8,8 +8,11 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long employee_id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "firstname")
+    private String firstname;
+
+    @Column(name = "lastname")
+    private String lastname;
 
     @Column(name = "role")
     private String role;
@@ -29,12 +32,20 @@ public class Employee {
         return employee_id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getRole() {
@@ -53,8 +64,9 @@ public class Employee {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public Employee(String name, String role, String telephoneNumber) {
-        setName(name);
+    public Employee(String firstname, String lastname, String role, String telephoneNumber) {
+        setFirstname(firstname);
+        setLastname(lastname);
         setRole(role);
         setTelephoneNumber(telephoneNumber);
     }
