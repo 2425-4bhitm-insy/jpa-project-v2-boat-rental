@@ -7,7 +7,7 @@ import java.math.BigInteger;
 @Entity(name = "br_boat")
 public abstract class Boat {
 
-    //TODO Add attributes and methodes
+    //TODO Add attributes and methodes to class Boat
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
