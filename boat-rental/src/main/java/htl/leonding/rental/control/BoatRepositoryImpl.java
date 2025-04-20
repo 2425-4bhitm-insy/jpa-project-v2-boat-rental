@@ -9,9 +9,7 @@ public class BoatRepositoryImpl implements BoatRepository {
 
     private final EntityManager entityManager;
 
-    public BoatRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    public BoatRepositoryImpl(EntityManager entityManager) {this.entityManager = entityManager;}
 
     @Override
     public void add(Boat boat) {
