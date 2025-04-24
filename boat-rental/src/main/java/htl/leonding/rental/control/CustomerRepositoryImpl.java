@@ -1,8 +1,10 @@
 package htl.leonding.rental.control;
 
 import htl.leonding.rental.entity.Customer;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 
+@ApplicationScoped
 public class CustomerRepositoryImpl implements CustomerRepository {
 
     private final EntityManager entityManager;
