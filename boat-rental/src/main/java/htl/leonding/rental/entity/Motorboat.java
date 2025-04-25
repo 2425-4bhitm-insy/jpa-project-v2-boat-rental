@@ -1,7 +1,6 @@
 package htl.leonding.rental.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity(name = "br_motorboat")
 public class Motorboat extends Boat {
