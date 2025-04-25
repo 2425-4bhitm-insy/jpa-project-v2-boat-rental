@@ -2,7 +2,7 @@ package htl.leonding.rental.entity;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "br_boat")
 public class Boat extends RentalItems {
 
     @Column(name = "name")
