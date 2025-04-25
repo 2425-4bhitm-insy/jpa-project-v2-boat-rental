@@ -2,15 +2,8 @@ package htl.leonding.rental.entity;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Entity(name = "br_boat")
-public abstract class Boat extends RentalItems {
-
-    //TODO Add attributes and methodes to class Boat
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long boat_id;
+@Entity
+public class Boat extends RentalItems {
 
     @Column(name = "name")
     private String name;
@@ -26,14 +19,6 @@ public abstract class Boat extends RentalItems {
 
     @Column(name = "capacity")
     private int capacity;
-
-    public long getBoat_id() {
-        return boat_id;
-    }
-
-//    public void setBoat_id(long boat_id) {
-//        this.boat_id = boat_id;
-//    }
 
     public String getName() {
         return name;
@@ -75,13 +60,13 @@ public abstract class Boat extends RentalItems {
         this.capacity = capacity;
     }
 
-    public Boat(){}
+    public Boat() {}
 
     public Boat(String name, boolean isRented, String description, double price, int capacity) {
-        setName(name);
-        setRented(isRented);
-        setDescription(description);
-        setPrice(price);
-        setCapacity(capacity);
+        this.name = name;
+        this.isRented = isRented;
+        this.description = description;
+        this.price = price;
+        this.capacity = capacity;
     }
 }

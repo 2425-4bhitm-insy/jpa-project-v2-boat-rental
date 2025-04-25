@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 
 @Entity(name = "br_extras")
 public class Extras extends RentalItems {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long extraId;
 
     @Column(name = "name")
     private String name;
@@ -19,10 +16,6 @@ public class Extras extends RentalItems {
 
     public Extras() {
 
-    }
-
-    public long getExtraId() {
-        return extraId;
     }
 
     public String getName() {
