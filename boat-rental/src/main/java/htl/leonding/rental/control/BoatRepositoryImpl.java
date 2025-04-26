@@ -4,6 +4,8 @@ import htl.leonding.rental.entity.Boat;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 @ApplicationScoped
 public class BoatRepositoryImpl implements BoatRepository {
 
@@ -17,7 +19,17 @@ public class BoatRepositoryImpl implements BoatRepository {
     }
 
     @Override
+    public void remove(Boat boat) {
+        entityManager.remove(boat);
+    }
+
+    @Override
     public Boat getBoat(Long boatId) {
         return entityManager.find(Boat.class, boatId);
+    }
+
+    @Override
+    public List<Boat> getAllBoats() {
+        return entityManager.createQuery("select b from br_boat b", Boat.class).getResultList();
     }
 }
