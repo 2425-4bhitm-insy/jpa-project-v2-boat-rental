@@ -3,10 +3,7 @@ package htl.leonding.rental.boundary;
 import htl.leonding.rental.control.BoatRepositoryImpl;
 import htl.leonding.rental.entity.Boat;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -21,9 +18,15 @@ public class BoatResource {
     BoatRepositoryImpl boatRepository;
 
     @GET
-    @Path("getAllBoats")
+    @Path("allBoats")
     public List<Boat> getAllBoats() {
         return boatRepository.getAllBoats();
+    }
+
+    @GET
+    @Path("singleBoat/{id}")
+    public Boat getSingleBoat(@PathParam("id") Long id) {
+        return boatRepository.getBoat(id);
     }
 
 }
