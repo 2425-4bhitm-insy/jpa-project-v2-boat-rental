@@ -1,0 +1,56 @@
+GET http://localhost:8080/leases/1
+Content-Type: */*
+
+###
+
+GET http://localhost:8080/boat/allBoats
+Content-Type: */*
+
+###
+
+GET http://localhost:8080/boat/singleBoat/1
+Content-Type: */*
+
+###
+
+GET http://localhost:8080/boat/allYachts
+Content-Type: */*
+
+###
+
+POST http://localhost:8080/leases/addLease
+Content-Type: application/json
+
+{
+  "reservation": 1,
+  "rentalItems": 2
+}
+
+###
+
+GET http://localhost:8080/payments
+Content-Type: */*
+
+###
+
+GET http://localhost:8080/payments/1
+Content-Type: */*
+
+###
+
+POST http://localhost:8080/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "reservation": {
+    "reservation_id": 3
+  },
+  "amount": 150.0,
+  "paymentDate": "2025-05-01"
+}
+
+###
+
+GET http://localhost:8080/reservations
+Content-Type: */*
