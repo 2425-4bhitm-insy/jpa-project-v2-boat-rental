@@ -46,8 +46,12 @@ public class BoatResource {
 
     @GET
     @Path("singleBoat/{id}")
-    public Boat getSingleBoat(@PathParam("id") Long id) {
-        return boatRepository.getBoat(id);
+    public Response getSingleBoat(@PathParam("id") Long id) {
+        Boat boat = boatRepository.getBoat(id);
+        if (boat == null) {
+            return Response.status(404, "Boat with id '" + id + "' was not found.").build();
+        }
+        return Response.ok(boat).build();
     }
 
     @GET

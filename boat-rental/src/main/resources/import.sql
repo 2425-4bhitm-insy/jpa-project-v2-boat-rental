@@ -47,7 +47,19 @@ INSERT INTO br_customer (customer_id, firstname, lastname, address, telephonenum
 (21, 'Clara', 'Hoffmann', 'Bahnstraße 5, Hamburg', '040-6677889',
  'clara.hoffmann@example.com'),
 (22, 'Paul', 'Klein', 'Feldstraße 19, München', '089-4455778',
- 'paul.klein@example.com');
+ 'paul.klein@example.com')
+(23, 'Sophie', 'Wolf', 'Kaiserstraße 2, Frankfurt', '069-7788991',
+'sophie.wolf@example.com'),
+(24, 'Tim', 'Neumann', 'Gartenweg 8, Leipzig', '0341-8877665',
+'tim.neumann@example.com'),
+(25, 'Emma', 'Schäfer', 'Kirchplatz 11, Hannover', '0511-4455668',
+'emma.schaefer@example.com'),
+(26, 'Max', 'Schmitt', 'Waldstraße 22, Stuttgart', '0711-5566778',
+'max.schmitt@example.com'),
+(27, 'Lina', 'Hartmann', 'Seeweg 9, Dresden', '0351-6677881',
+'lina.hartmann@example.com'),
+(28, 'Noah', 'Krüger', 'Marktplatz 4, Dortmund', '0231-7788992',
+'noah.krueger@example.com'):
 
 
 
