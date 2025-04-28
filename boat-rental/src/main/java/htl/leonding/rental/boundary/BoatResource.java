@@ -2,11 +2,9 @@ package htl.leonding.rental.boundary;
 
 import htl.leonding.rental.control.BoatRepository;
 import htl.leonding.rental.control.BoatRepositoryImpl;
-import htl.leonding.rental.entity.Boat;
-import htl.leonding.rental.entity.Motorboat;
-import htl.leonding.rental.entity.Sailboat;
-import htl.leonding.rental.entity.Yacht;
+import htl.leonding.rental.entity.*;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -20,6 +18,25 @@ public class BoatResource {
 
     @Inject
     BoatRepository boatRepository;
+
+    @POST
+    @Transactional
+    public Response addBoat(Boat boat) {
+        boatRepository.add(boat);
+        return Response.status(201).entity(boat).build();
+    }
+
+    @DELETE
+    @Path("delete/{id}")
+    @Transactional
+    public Response deleteBoat(@PathParam("id") Long id) {
+        Boat boat = boatRepository.getBoat(id);
+        if (boat == null) {
+            return Response.status(404, "Boat with id '" + id + "' was not found.").build();
+        }
+        boatRepository.remove(boat);
+        return Response.ok(boat).build();
+    }
 
     @GET
     @Path("allBoats")
