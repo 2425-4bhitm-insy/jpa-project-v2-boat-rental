@@ -17,5 +17,11 @@ public class EmployeeTest {
         assertEquals("06600000", employee.getTelephoneNumber());
     }
 
+    @Test
+    void testSetFirstName() {
+        employee.setFirstname("Pia");
+        assertEquals("Pia", employee.getFirstname());
+    }
+
 
 }
