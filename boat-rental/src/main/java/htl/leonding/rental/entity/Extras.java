@@ -5,13 +5,13 @@ import jakarta.persistence.*;
 @Entity(name = "br_extras")
 public class Extras extends RentalItems {
 
-    @Column(name = "name")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column
     private String description;
 
-    @Column(name = "price")
+    @Column(nullable = false)
     private double price;
 
     public Extras() {

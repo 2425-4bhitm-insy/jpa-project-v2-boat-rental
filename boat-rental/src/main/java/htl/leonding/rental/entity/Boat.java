@@ -3,23 +3,22 @@ package htl.leonding.rental.entity;
 import jakarta.persistence.*;
 
 @Entity(name = "br_boat")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "boat_type")
-public class Boat extends RentalItems {
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Boat extends RentalItems {
 
-    @Column(name = "name")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "isRented")
+    @Column
     private boolean isRented;
 
-    @Column(name = "description")
+    @Column
     private String description;
 
-    @Column(name = "price")
+    @Column
     private double price;
 
-    @Column(name = "capacity")
+    @Column
     private int capacity;
 
     public String getName() {
