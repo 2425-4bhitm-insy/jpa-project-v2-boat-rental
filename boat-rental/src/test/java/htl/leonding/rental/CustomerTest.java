@@ -20,8 +20,16 @@ public class CustomerTest {
     }
 
     @Test
-    void testSetName() {
+    void testSetFirstName() {
         customer.setFirstname("Alma");
         assertEquals("Alma", customer.getFirstname());
     }
+
+    @Test
+    void testSetLastName() {
+        customer.setLastname("Baumann");
+        assertEquals("Baumann", customer.getLastname());
+    }
 }
+
+
