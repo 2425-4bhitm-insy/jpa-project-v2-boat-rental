@@ -23,5 +23,12 @@ public class EmployeeTest {
         assertEquals("Pia", employee.getFirstname());
     }
 
+    @Test
+    void testSetLastName() {
+        employee.setLastname("Smith");
+        assertEquals("Baumann", employee.getLastname());
+    }
+
+
 
 }
