@@ -10,7 +10,7 @@ INSERT INTO br_employee (employee_id, firstname, lastname, role, telephonenumber
 
 -- Insert into rentalitems first (IMPORTANT because br_boat and br_extras depend on it)
 -- We are adding entries to the base class RentalItems table
-INSERT INTO rentalitems (id) VALUES
+INSERT INTO br_rentalitems (id) VALUES
                                  (1), (2), (3), (4), (5);
 
 -- Insert Boats (linked to rental_items table)
@@ -58,3 +58,12 @@ INSERT INTO br_lease (id, reservation_id, rentalitems_id) VALUES
 INSERT INTO br_payment (id, amount, paymentdate, reservation_id) VALUES
                                                                      (1, 140.0, '2025-05-01', 1),
                                                                      (2, 265.0, '2025-06-10', 2);
+
+SELECT setval('br_customer_customer_id_seq', (SELECT max(customer_id) FROM br_customer));
+SELECT setval('br_employee_employee_id_seq', (SELECT max(employee_id) FROM br_employee));
+SELECT setval('br_rentalitems_id_seq', (SELECT max(id) FROM rentalitems));
+--SELECT setval('br_boat_id_seq', (SELECT max(id) FROM br_boat)); -- might be optional depending on inheritance
+--SELECT setval('br_extras_id_seq', (SELECT max(id) FROM br_extras));
+SELECT setval('br_reservation_id_seq', (SELECT max(id) FROM br_reservation));
+SELECT setval('br_lease_id_seq', (SELECT max(id) FROM br_lease));
+SELECT setval('br_payment_id_seq', (SELECT max(id) FROM br_payment));
