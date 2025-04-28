@@ -1,0 +1,161 @@
+=  Presentation Boat-Rental
+Elisa Kaltenberger Linnea Schönbauer Zoe Öllinger
+1.0.0, {docdate}
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+// :toc:
+// :toclevels: 1
+:experimental:
+//https://gist.github.com/dcode/0cfbf2699a1fe9b46ff04c41721dda74?permalink_comment_id=3948218
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+
+== Wie verwenden wir JPA:
+
+=== Entity Manager
+Wir benutzend den Entity Manager, um Entitäten zu speichern (persist) oder auch zum Beispiel zum laden (find).
+
+[source,java]
+----
+// Beispiel für Speichern:
+entityManager.persist(employee);
+
+// Beispiel für Finden:
+entityManager.find(Employe e.class, employeeId);
+----
+
+==== Vor- und Nachteile von Entity Manager
+* Vorteile:
+** Flexibel: Volle Kontrolle über alle JPA-Operationen (persist, merge, remove, find, createQuery etc.).
+** Leistungsstark: Optimale Ausnutzung aller JPA-Funktionen.
+** Standardisiert: Funktioniert in jedem JPA-Umfeld (Jakarta EE, Quarkus, Spring).
+
+* Nachteile:
+** Mehr Code nötig: Jede Datenbankoperation (z.B. find oder persist) muss manuell geschrieben werden.
+** Weniger Abstraktion: Services oder Controller sehen direkt, wie gespeichert wird → höhere Kopplung.
+** Fehleranfälliger bei Änderungen: Änderungen an der Datenbankstruktur erfordern überall Anpassungen.
+
+
+=== Verwendung von Repository Pattern (Interface + Implementierung)
+
+Das Interface EmployeeRepository kapselt die gesamte Datenzugriffslogik und sorgt so für eine klare Trennung zwischen
+der Geschäftslogik und der Persistenzschicht. Die konkrete Implementierung EmployeeRepositoryImpl verwendet intern JPA,
+um die eigentlichen Datenbankoperationen durchzuführen. Durch diese Struktur bleibt der Code flexibel und leichter
+erweiterbar, da Änderungen an der Persistenzlogik keine Auswirkungen auf die restlichen Teile der Anwendung haben und
+alternative Implementierungen einfach hinzugefügt werden können.
+
+[source,java]
+----
+// Interface
+public interface BoatRepository {
+    void add(Boat boat);
+    void remove(Boat boat);
+    Boat getBoat(Long boatId);
+}
+
+// BoatRepositoryImpl
+@ApplicationScoped
+public class BoatRepositoryImpl implements BoatRepository {
+    private final EntityManager entityManager;
+    public BoatRepositoryImpl(EntityManager entityManager) {this.entityManager = entityManager;}
+
+    @Override
+    public void add(Boat boat) {
+        entityManager.persist(boat);
+    }
+
+    @Override
+    public void remove(Boat boat) {
+        entityManager.remove(boat);
+    }
+
+    @Override
+    public Boat getBoat(Long boatId) {
+        return entityManager.find(Boat.class, boatId);
+    }
+}
+----
+
+* Vorteile:
+** Trennung der Verantwortlichkeiten: Business-Logik (Service-Schicht) muss nichts über Persistenz wissen.
+** Bessere Testbarkeit: Einfaches Mocking von Repositories in Unit-Tests.
+** Flexibilität: Austausch der Speichertechnologie ohne Änderungen am restlichen Code (z.B. InMemory-Repository
+statt Datenbank).
+
+
+* Nachteile:
+** Mehr Klassen: Für jede Entität mindestens 1 Interface + 1 Implementierung.
+** Manueller Aufwand: CRUD-Methoden müssen selbst implementiert werden (außer man nutzt automatische Tools).
+
+=== Named- vs. Typed-Queries:
+
+==== Named Queries
+Named Queries sind vordefinierte Abfragen, die direkt an der Entitätsklasse definiert werden. Sie werden üblicherweise
+durch die Annotation @NamedQuery festgelegt. Dadurch sind sie zur Compile-Zeit bekannt und können im gesamten Projekt
+wiederverwendet werden.
+
+[source,java]
+----
+// Anlegen der Named Queries
+@Entity
+@NamedQuery(
+    name = "Employee.findByName",
+    query = "SELECT e FROM Employee e WHERE e.name = :name"
+)
+public class Employee {
+    @Id
+    private Long id;
+    private String name;
+
+    // Getter und Setter
+}
+
+// Aufruf der Named Queries:
+TypedQuery<Employee> query = entityManager.createNamedQuery("Employee.findByName", Employee.class);
+query.setParameter("name", "Max Mustermann");
+List<Employee> employees = query.getResultList();
+----
+
+
+==== Typed Queries
+
+Typed Queries werden direkt im Code definiert, ohne dass sie in der Entitätsklasse registriert werden müssen. Sie
+bieten Typensicherheit zur Compile-Zeit und sind besonders praktisch bei dynamischen oder einmaligen Abfragen.
+
+[source,java]
+----
+TypedQuery<Employee> query = entityManager.createQuery(
+    "SELECT e FROM Employee e WHERE e.name = :name", Employee.class);
+query.setParameter("name", "Max Mustermann");
+List<Employee> employees = query.getResultList();
+----
+
+== Special Cases:
+
+=== Table Per Class vs Single Class Per Table
+
+=== Wieso benutzen wir ein Interface?
+* Warum wird das Interface in der BoatResource-Klasse verwendet?
+* In der BoatResource-Klasse wird das Interface BoatRepository verwendet, anstatt direkt mit einer konkreten
+Implementierung (z.B. BoatRepositoryImpl) zu arbeiten, aus folgenden Gründen:
+
+1. Trennung von Vertrag und Implementierung (Abstraktion)
+Das Interface definiert nur den Vertrag, also welche Methoden (z.B. add(), remove(), getAllBoats()) verfügbar sind,
+ohne festzulegen, wie diese Methoden genau implementiert werden. Die konkrete Implementierung (BoatRepositoryImpl)
+definiert wie diese Methoden umgesetzt werden (z.B. Datenbankzugriff, In-Memory-Speicherung etc.).
+Die BoatResource-Klasse benötigt nur die Methodensignaturen des Interfaces, um die Boote zu verwalten.
+Sie muss nicht wissen, wie die Implementierung aussieht.
+
+2. Flexibilität
+Durch die Verwendung des Interfaces in der BoatResource-Klasse wird die Codebasis flexibel und erweiterbar.
+Wenn sich die Art und Weise, wie die Boote gespeichert oder abgerufen werden, ändern muss (z.B. von einer lokalen
+Datei auf eine Datenbank oder Cloud-Datenbank), dann muss nur die konkrete Implementierung (BoatRepositoryImpl)
+geändert werden. Die BoatResource-Klasse bleibt unverändert, da sie nur mit dem Interface arbeitet.
+
