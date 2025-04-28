@@ -22,7 +22,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     public void remove(Employee employee) {
-        entityManager.remove(employee);
+        if (entityManager.contains(employee)) {
+            entityManager.remove(employee);
+        }
     }
 
     @Override
