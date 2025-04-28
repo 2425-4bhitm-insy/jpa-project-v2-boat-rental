@@ -1,5 +1,6 @@
 package htl.leonding.rental.boundary;
 
+import htl.leonding.rental.control.BoatRepository;
 import htl.leonding.rental.control.BoatRepositoryImpl;
 import htl.leonding.rental.entity.Boat;
 import htl.leonding.rental.entity.Yacht;
@@ -16,7 +17,7 @@ import java.util.List;
 public class BoatResource {
 
     @Inject
-    BoatRepositoryImpl boatRepository;
+    BoatRepository boatRepository;
 
     @GET
     @Path("allBoats")
