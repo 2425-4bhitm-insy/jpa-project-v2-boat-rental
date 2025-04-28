@@ -4,6 +4,8 @@ import htl.leonding.rental.entity.Employee;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
 
+import java.util.List;
+
 @ApplicationScoped
 public class EmployeeRepositoryImpl implements EmployeeRepository {
 
@@ -19,7 +21,19 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
+    public void remove(Employee employee) {
+        if (entityManager.contains(employee)) {
+            entityManager.remove(employee);
+        }
+    }
+
+    @Override
     public Employee getEmployee(Long employeeId) {
         return entityManager.find(Employee.class, employeeId);
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return entityManager.createQuery("select e from br_employee e", Employee.class).getResultList();
     }
 }
