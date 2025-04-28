@@ -1,6 +1,8 @@
 package htl.leonding.rental.control;
 
 import htl.leonding.rental.entity.Boat;
+import htl.leonding.rental.entity.Motorboat;
+import htl.leonding.rental.entity.Sailboat;
 import htl.leonding.rental.entity.Yacht;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
@@ -37,5 +39,15 @@ public class BoatRepositoryImpl implements BoatRepository {
     @Override
     public List<Yacht> getAllYachts() {
         return entityManager.createQuery("select b from br_yacht b", Yacht.class).getResultList();
+    }
+
+    @Override
+    public List<Motorboat> getAllMotorboats() {
+        return entityManager.createQuery("select m from br_motorboat m", Motorboat.class).getResultList();
+    }
+
+    @Override
+    public List<Sailboat> getAllSailBoats() {
+        return entityManager.createQuery("select s from br_sailboat s", Sailboat.class).getResultList();
     }
 }

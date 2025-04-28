@@ -3,6 +3,8 @@ package htl.leonding.rental.boundary;
 import htl.leonding.rental.control.BoatRepository;
 import htl.leonding.rental.control.BoatRepositoryImpl;
 import htl.leonding.rental.entity.Boat;
+import htl.leonding.rental.entity.Motorboat;
+import htl.leonding.rental.entity.Sailboat;
 import htl.leonding.rental.entity.Yacht;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -37,4 +39,15 @@ public class BoatResource {
         return boatRepository.getAllYachts();
     }
 
+    @GET
+    @Path("allMotorboats")
+    public List<Motorboat> getAllMotorboats() {
+        return boatRepository.getAllMotorboats();
+    }
+
+    @GET
+    @Path("allSailboats")
+    public List<Sailboat> getAllSailboats() {
+        return boatRepository.getAllSailBoats();
+    }
 }
