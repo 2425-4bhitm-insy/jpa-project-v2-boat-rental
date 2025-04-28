@@ -2,7 +2,7 @@ package htl.leonding.rental.entity;
 
 import jakarta.persistence.*;
 
-@Entity
+@Entity(name = "br_rentalitems")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class RentalItems {
     @Id
