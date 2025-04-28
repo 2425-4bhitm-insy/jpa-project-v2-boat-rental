@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boat Rental Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin: 20px 0;
+        }
+        .filter-section {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 80%;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .filter-section label {
+            font-weight: bold;
+        }
+        .boat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            width: 80%;
+        }
+        .boat-card {
+            background-color: #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .boat-card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .boat-card p {
+            margin: 5px 0;
+        }
+        .rent-button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .rent-button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Boat Rental Service</h1>
+
+<div class="filter-section">
+    <div>
+        <label for="priceRange">Max Price: $<span id="priceValue">1000</span></label><br>
+        <input type="range" id="priceRange" min="10" max="1000" value="1000" step="10" oninput="updatePriceValue(this.value)">
+    </div>
+</div>
+
+<div id="boat-list" class="boat-grid">
+    <!-- Boat cards will be dynamically loaded here -->
+</div>
+
+<script>
+    let allBoats = []; // Keep the full boat list
+    let currentMaxPrice = 1000; // Default max price
+
+    loadBoats();
+
+    function rentBoat(boatId) {
+        fetch(`/boat/rent/${boatId}`, {
+            method: 'PUT'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Boat rented successfully!');
+                    loadBoats();
+                } else {
+                    response.text().then(text => alert('Failed to rent boat: ' + text));
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+    }
+
+    function loadBoats() {
+        fetch('/boat/allBoats')
+            .then(response => response.json())
+            .then(boats => {
+                allBoats = boats; // Save for filtering
+                displayBoats();
+            });
+    }
+
+    function displayBoats() {
+        const boatListContainer = document.getElementById('boat-list');
+        boatListContainer.innerHTML = '';
+        allBoats.forEach(boat => {
+            if (!boat.rented && boat.price <= currentMaxPrice) {
+                const boatCard = document.createElement('div');
+                boatCard.className = 'boat-card';
+                boatCard.innerHTML = `
+          <h2>${boat.name}</h2>
+          <p>${boat.description}</p>
+          <p><strong>Price:</strong> $${boat.price}</p>
+          <button class="rent-button" onclick="rentBoat(${boat.id})">Rent Boat</button>
+        `;
+                boatListContainer.appendChild(boatCard);
+            }
+        });
+    }
+
+    function updatePriceValue(value) {
+        currentMaxPrice = value;
+        document.getElementById('priceValue').textContent = value;
+        displayBoats();
+    }
+</script>
+
+</body>
+</html>
