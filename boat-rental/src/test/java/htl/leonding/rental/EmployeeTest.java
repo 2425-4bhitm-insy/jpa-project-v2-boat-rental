@@ -26,7 +26,7 @@ public class EmployeeTest {
     @Test
     void testSetLastName() {
         employee.setLastname("Smith");
-        assertEquals("Baumann", employee.getLastname());
+        assertEquals("Smith", employee.getLastname());
     }
 
 
@@ -36,6 +36,11 @@ public class EmployeeTest {
         assertEquals("06600000", employee.getTelephoneNumber());
     }
 
+    @Test
+    void testSetRole(){
+        employee.setRole("Admin");
+        assertEquals("Admin", employee.getRole());
+    }
 
 
 }
