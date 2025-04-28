@@ -42,6 +42,11 @@ public class CustomerTest {
         assertEquals("066011111", customer.getTelephoneNumber());
     }
 
+    @Test
+    void testSetEmail() {
+        customer.setAddress("Alma.Baumann@gmail.com");
+        assertEquals("Alma.Baumann@gmail.com", customer.getAddress());
+    }
 
 }
 
