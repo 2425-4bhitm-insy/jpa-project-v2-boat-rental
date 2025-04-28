@@ -7,7 +7,8 @@ import java.time.LocalDate;
 @Entity(name = "br_payment")
 public class Payment {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "reservation_id")
     Reservation reservation;
 
     @Column (name = "amount")
