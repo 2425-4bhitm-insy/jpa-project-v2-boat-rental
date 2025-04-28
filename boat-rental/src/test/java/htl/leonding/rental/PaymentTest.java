@@ -18,7 +18,6 @@ public class PaymentTest {
     Payment payment = new Payment(LocalDate.of(2025, 4, 15), 99.99, reservation);
 
 
-
     @Test
     void testConstructorAndGetters() {
         assertEquals(LocalDate.of(2025, 4, 15), payment.getPaymentDate());
