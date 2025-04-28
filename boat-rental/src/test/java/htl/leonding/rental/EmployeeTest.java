@@ -30,5 +30,12 @@ public class EmployeeTest {
     }
 
 
+    @Test
+    void testSetTelephoneNumber() {
+        employee.setTelephoneNumber("06600000");
+        assertEquals("06600000", employee.getTelephoneNumber());
+    }
+
+
 
 }
