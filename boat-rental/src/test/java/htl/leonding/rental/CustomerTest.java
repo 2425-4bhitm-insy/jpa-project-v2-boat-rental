@@ -19,5 +19,9 @@ public class CustomerTest {
         assertEquals("Nia.mayer@gmail.com", customer.getEmail());
     }
 
-
+    @Test
+    void testSetName() {
+        customer.setFirstname("Alma");
+        assertEquals("Alma", customer.getFirstname());
+    }
 }
