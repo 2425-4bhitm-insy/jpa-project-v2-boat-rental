@@ -10,6 +10,9 @@
         <class>htl.leonding.rental.entity.Lease</class>
         <class>htl.leonding.rental.entity.Reservation</class>
         <class>htl.leonding.rental.entity.Payment</class>
+        <class>htl.leonding.rental.entity.Customer</class>
+        <class>htl.leonding.rental.entity.Employee</class>
+        <class>htl.leonding.rental.entity.RentalItems</class>
         <!-- Add others as needed -->
 
         <properties>
