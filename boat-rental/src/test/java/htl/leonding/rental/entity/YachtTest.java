@@ -1,6 +1,5 @@
-package htl.leonding.rental;
+package htl.leonding.rental.entity;
 
-import htl.leonding.rental.entity.Yacht;
 import org.junit.jupiter.api.Test;
 
 import static io.smallrye.common.constraint.Assert.assertTrue;

@@ -1,6 +1,5 @@
-package htl.leonding.rental;
+package htl.leonding.rental.entity;
 
-import htl.leonding.rental.entity.Customer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

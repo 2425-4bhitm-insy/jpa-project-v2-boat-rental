@@ -1,8 +1,6 @@
-package htl.leonding.rental;
+package htl.leonding.rental.entity;
 
-import htl.leonding.rental.entity.Sailboat;
 import org.junit.jupiter.api.Test;
-import htl.leonding.rental.entity.SailboatType;
 
 import static org.junit.jupiter.api.Assertions.*;
 

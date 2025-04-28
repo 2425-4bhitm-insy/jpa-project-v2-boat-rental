@@ -1,9 +1,5 @@
-package htl.leonding.rental;
+package htl.leonding.rental.entity;
 
-import htl.leonding.rental.entity.Customer;
-import htl.leonding.rental.entity.Employee;
-import htl.leonding.rental.entity.Reservation;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;

@@ -1,6 +1,5 @@
-package htl.leonding.rental;
+package htl.leonding.rental.entity;
 
-import htl.leonding.rental.entity.Boat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
