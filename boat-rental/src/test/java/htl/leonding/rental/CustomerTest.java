@@ -30,6 +30,13 @@ public class CustomerTest {
         customer.setLastname("Baumann");
         assertEquals("Baumann", customer.getLastname());
     }
+
+    @Test
+    void testSetAdress() {
+        customer.setAddress("Baustrasse");
+        assertEquals("Baustrasse", customer.getAddress());
+    }
+
 }
 
 
