@@ -38,4 +38,9 @@ public class BoatRepositoryImpl implements BoatRepository {
     public List<Yacht> getAllYachts() {
         return entityManager.createQuery("select b from br_yacht b", Yacht.class).getResultList();
     }
+
+    @Override
+    public void update(Boat boat) {
+        entityManager.merge(boat);
+    }
 }

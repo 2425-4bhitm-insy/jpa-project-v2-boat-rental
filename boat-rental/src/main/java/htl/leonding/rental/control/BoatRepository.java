@@ -13,4 +13,5 @@ public interface BoatRepository {
     Boat getBoat(Long boatId);
     List<Boat> getAllBoats();
     List<Yacht> getAllYachts();
+    void update(Boat boat);
 }

@@ -5,6 +5,7 @@ import htl.leonding.rental.control.BoatRepositoryImpl;
 import htl.leonding.rental.entity.Boat;
 import htl.leonding.rental.entity.Yacht;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -35,6 +36,22 @@ public class BoatResource {
     @Path("allYachts")
     public List<Yacht> getAllYachts() {
         return boatRepository.getAllYachts();
+    }
+
+    @PUT
+    @Path("rent/{id}")
+    @Transactional
+    public Response rentBoat(@PathParam("id") Long id) {
+        Boat boat = boatRepository.getBoat(id);
+        if (boat == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Boat not found").build();
+        }
+        if (boat.isRented()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Boat already rented").build();
+        }
+        boat.setRented(true);
+        boatRepository.update(boat);
+        return Response.ok(boat).build();
     }
 
 }
