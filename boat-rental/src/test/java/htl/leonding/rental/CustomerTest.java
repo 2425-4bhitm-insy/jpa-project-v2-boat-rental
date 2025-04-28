@@ -3,7 +3,6 @@ package htl.leonding.rental;
 import htl.leonding.rental.entity.Customer;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CustomerTest {
@@ -32,10 +31,17 @@ public class CustomerTest {
     }
 
     @Test
-    void testSetAdress() {
+    void testSetAddress() {
         customer.setAddress("Baustrasse");
         assertEquals("Baustrasse", customer.getAddress());
     }
+
+    @Test
+    void testSetTelephoneNumber() {
+        customer.setTelephoneNumber("066011111");
+        assertEquals("066011111", customer.getTelephoneNumber());
+    }
+
 
 }
 
