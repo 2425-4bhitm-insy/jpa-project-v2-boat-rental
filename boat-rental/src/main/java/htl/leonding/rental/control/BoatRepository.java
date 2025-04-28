@@ -1,6 +1,8 @@
 package htl.leonding.rental.control;
 
 import htl.leonding.rental.entity.Boat;
+import htl.leonding.rental.entity.Yacht;
+
 import java.util.List;
 
 import java.util.Map;
@@ -10,4 +12,5 @@ public interface BoatRepository {
     void remove(Boat boat);
     Boat getBoat(Long boatId);
     List<Boat> getAllBoats();
+    List<Yacht> getAllYachts();
 }
