@@ -3,6 +3,8 @@ package htl.leonding.rental.entity;
 import jakarta.persistence.*;
 
 @Entity(name = "br_boat")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "boat_type")
 public class Boat extends RentalItems {
 
     @Column(name = "name")

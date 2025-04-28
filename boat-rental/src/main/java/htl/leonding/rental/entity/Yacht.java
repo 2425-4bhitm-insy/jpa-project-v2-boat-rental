@@ -3,6 +3,7 @@ package htl.leonding.rental.entity;
 import jakarta.persistence.*;
 
 @Entity(name = "br_yacht")
+@DiscriminatorValue("Yacht")
 public class Yacht extends Boat {
 
     @Column(name = "rooms")
