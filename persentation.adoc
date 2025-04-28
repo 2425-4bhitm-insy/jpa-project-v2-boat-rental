@@ -159,5 +159,3 @@ Wenn sich die Art und Weise, wie die Boote gespeichert oder abgerufen werden, ä
 Datei auf eine Datenbank oder Cloud-Datenbank), dann muss nur die konkrete Implementierung (BoatRepositoryImpl)
 geändert werden. Die BoatResource-Klasse bleibt unverändert, da sie nur mit dem Interface arbeitet.
 
-
-=== Zoes...
