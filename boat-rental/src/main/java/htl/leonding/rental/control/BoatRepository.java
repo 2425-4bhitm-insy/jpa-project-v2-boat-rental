@@ -1,10 +1,12 @@
 package htl.leonding.rental.control;
 
 import htl.leonding.rental.entity.Boat;
-import htl.leonding.rental.entity.Motorboat;
-import htl.leonding.rental.entity.Sailboat;
 import htl.leonding.rental.entity.Yacht;
+import htl.leonding.rental.entity.dto.BoatDTO;
+import htl.leonding.rental.entity.dto.RentalDTO;
+import htl.leonding.rental.entity.dto.TopBoatDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.Map;
@@ -15,6 +17,8 @@ public interface BoatRepository {
     Boat getBoat(Long boatId);
     List<Boat> getAllBoats();
     List<Yacht> getAllYachts();
-    List<Motorboat> getAllMotorboats();
-    List<Sailboat> getAllSailBoats();
+    void update(Boat boat);
+    List<Boat> getAvailableBoatsBetweenDates(LocalDate startDate, LocalDate endDate);
+    List<RentalDTO> getAllBoatRentals();
+    List<TopBoatDTO> getTopRevenueBoats();
 }
