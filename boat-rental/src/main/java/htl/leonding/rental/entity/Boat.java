@@ -1,9 +1,16 @@
 package htl.leonding.rental.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 
 @Entity(name = "br_boat")
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXTERNAL_PROPERTY, property = "boatType")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Sailboat.class, name = "sailboat"),
+        @JsonSubTypes.Type(value = Motorboat.class, name = "motorboat"),
+        @JsonSubTypes.Type(value = Yacht.class, name = "yacht")
+})
 public abstract class Boat extends RentalItems {
 
     @Column(nullable = false)
