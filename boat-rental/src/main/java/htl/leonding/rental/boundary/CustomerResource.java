@@ -3,11 +3,14 @@ package htl.leonding.rental.boundary;
 import htl.leonding.rental.control.CustomerRepository;
 import htl.leonding.rental.entity.Boat;
 import htl.leonding.rental.entity.Customer;
+import htl.leonding.rental.entity.dto.CustomerDTO;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
+import java.util.List;
 
 @Path("/customers")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -44,5 +47,11 @@ public class CustomerResource {
         }
         customerRepository.remove(customer);
         return Response.ok(customer).build();
+    }
+
+    @GET
+    @Path("topCustomers")
+    public List<CustomerDTO> getCustomersWithMultipleRentals() {
+        return customerRepository.getCustomersWithMultipleRentals();
     }
 }

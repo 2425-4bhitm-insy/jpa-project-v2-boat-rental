@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Boat Rental Service</title>
+    <style>
+        /* Global styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f7f9fc;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        #panelSelector {
+            padding: 5px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+        .content {
+            padding: 20px;
+        }
+        .boat-grid, .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .boat-card, .admin-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .boat-card h2, .admin-card h2 {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .boat-card p, .admin-card p {
+            margin: 5px 0;
+        }
+        .rent-button, .filter-button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .rent-button:disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
+        .filter-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: #eef1f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .filter-section label {
+            font-weight: bold;
+        }
+        .date-picker-container input {
+            margin: 5px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Boat Rental Service</h1>
+    <select id="panelSelector" onchange="switchPanel()">
+        <option value="customer">Customer Panel</option>
+        <option value="admin">Admin Panel</option>
+    </select>
+</header>
+
+<div class="content">
+
+    <!-- CUSTOMER PANEL -->
+    <div id="customer-panel" style="display: block;">
+        <div class="filter-section">
+            <div>
+                <label for="priceRange">Max Price: $<span id="priceValue">1000</span></label><br>
+                <input type="range" id="priceRange" min="10" max="1000" value="1000" step="10" oninput="updatePriceValue(this.value)">
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <label>Filter by Dates:</label>
+                <div class="date-picker-container">
+                    <input type="date" id="startDate">
+                    <input type="date" id="endDate">
+                    <button class="filter-button" onclick="filterByDates()">Apply</button>
+                    <button class="filter-button" onclick="clearDateFilters()">Clear</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="boat-list" class="boat-grid">
+            <!-- Boats will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel" style="display: none;">
+        <div class="filter-section">
+            <button class="filter-button" onclick="loadAllRentals()">View All Rentals</button>
+            <button class="filter-button" onclick="loadTopCustomers()">Top Customers</button>
+            <button class="filter-button" onclick="loadTopRevenueBoats()">Most Popular Boats</button>
+            <button class="add-boat" onclick="openCreateBoatMenu()">Add New Boat</button>
+        </div>
+
+        <div id="admin-results" class="admin-grid">
+            <!-- Admin results (rentals, customers, stats) will be loaded here -->
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let allBoats = [];
+    let currentMaxPrice = 1000;
+    let dateFilteredBoats = null;
+
+    loadBoats();
+
+    function switchPanel() {
+        const selectedPanel = document.getElementById('panelSelector').value;
+        if (selectedPanel === 'customer') {
+            document.getElementById('customer-panel').style.display = 'block';
+            document.getElementById('admin-panel').style.display = 'none';
+        } else {
+            document.getElementById('customer-panel').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'block';
+            loadAllRentals();
+        }
+    }
+
+    function loadBoats() {
+        fetch('/boat/allBoats')
+            .then(response => response.json())
+            .then(boats => {
+                allBoats = boats;
+                dateFilteredBoats = null;
+                displayBoats();
+            });
+    }
+
+    function displayBoats() {
+        const boatsToShow = dateFilteredBoats || allBoats;
+        const boatListContainer = document.getElementById('boat-list');
+        boatListContainer.innerHTML = '';
+
+        boatsToShow.forEach(boat => {
+            if (!boat.rented && boat.price <= currentMaxPrice) {
+                const boatCard = document.createElement('div');
+                boatCard.className = 'boat-card';
+                boatCard.innerHTML = `
+          <h2>${boat.name}</h2>
+          <p>${boat.description}</p>
+          <p><strong>Price:</strong> $${boat.price}</p>
+          <button class="rent-button" onclick="rentBoat(${boat.id})">Rent Boat</button>
+        `;
+                boatListContainer.appendChild(boatCard);
+            }
+        });
+    }
+
+    function updatePriceValue(value) {
+        currentMaxPrice = value;
+        document.getElementById('priceValue').textContent = value;
+        displayBoats();
+    }
+
+    function filterByDates() {
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        if (!startDate || !endDate) {
+            alert('Please select both start and end dates.');
+            return;
+        }
+
+        fetch(`/boat/availableBoats?startDate=${startDate}&endDate=${endDate}`)
+            .then(response => response.json())
+            .then(boats => {
+                dateFilteredBoats = boats;
+                displayBoats();
+            })
+            .catch(error => {
+                console.error('Error fetching boats by date:', error);
+            });
+    }
+
+    function clearDateFilters() {
+        dateFilteredBoats = null;
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+        displayBoats();
+    }
+
+    function rentBoat(boatId) {
+        fetch(`/boat/rent/${boatId}`, { method: 'PUT' })
+            .then(response => {
+                if (response.ok) {
+                    alert('Boat rented successfully!');
+                    clearDateFilters();
+                    loadBoats();
+                } else {
+                    response.text().then(text => alert('Failed to rent boat: ' + text));
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+    }
+
+    function loadAllRentals() {
+        fetch('/boat/allRentals')
+            .then(response => response.json())
+            .then(rentals => {
+                const adminResults = document.getElementById('admin-results');
+                adminResults.innerHTML = '';
+
+                rentals.forEach(r => {
+
+                    const boatName = r.boatName || '---';
+                    let customerName = r.customerName || '---';
+                    let startDate = r.startDate || '---';
+                    let endDate = r.endDate || '---';
+                    const status = r.active ? '<span style="color:red;">Active</span>' : '<span style="color:green">Available</span>';
+
+                    if (!r.active) {
+                        console.log(boatName);
+                        customerName = '---';
+                        startDate = '---';
+                        endDate = '---';
+                    }
+
+                    const rentalCard = document.createElement('div');
+                    rentalCard.className = 'admin-card';
+                    rentalCard.innerHTML = `
+                    <h2>Boat: ${boatName}</h2>
+                    <p><strong>Customer:</strong> ${customerName}</p>
+                    <p><strong>Start:</strong> ${startDate}</p>
+                    <p><strong>End:</strong> ${endDate}</p>
+                    <p><strong>Status:</strong> ${status}</p>
+                `;
+                    adminResults.appendChild(rentalCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading rentals:', error);
+            });
+    }
+
+    function loadTopCustomers() {
+        fetch('/customers/topCustomers')
+            .then(response => response.json())
+            .then(customers => {
+                const adminResults = document.getElementById('admin-results');
+                adminResults.innerHTML = '';
+
+                customers.forEach(c => {
+                    const customerCard = document.createElement('div');
+                    customerCard.className = 'admin-card';
+                    customerCard.innerHTML = `
+            <h2>${c.firstname} ${c.lastname}</h2>
+            <p>${c.email}</p>
+            <p><strong>Total Rentals:</strong> ${c.reservationCount}</p>
+          `;
+                    adminResults.appendChild(customerCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading top customers:', error);
+            });
+    }
+
+    function loadTopRevenueBoats() {
+        fetch('/boat/topRevenueBoats')
+            .then(response => response.json())
+            .then(boats => {
+                const adminResults = document.getElementById('admin-results');
+                adminResults.innerHTML = '';
+
+                boats.forEach(boat => {
+                    const boatCard = document.createElement('div');
+                    boatCard.className = 'admin-card';
+                    boatCard.innerHTML = `
+                    <h2>${boat.name} (${boat.boatType})</h2>
+                    <p><strong>Total Revenue:</strong> €${boat.totalRevenue.toFixed(2)}</p>
+                `;
+                    adminResults.appendChild(boatCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error loading top revenue boats:', error);
+            });
+    }
+
+
+    function openCreateBoatMenu() {
+        const adminResults = document.getElementById('admin-results');
+        adminResults.innerHTML = `
+        <div class="admin-card">
+            <h2>Create New Boat</h2>
+            <form id="create-boat-form">
+                <label for="boatType">Boat Type:</label><br>
+                <select id="boatType" required onchange="showBoatTypeFields()">
+                    <option value="">Select Type</option>
+                    <option value="sailboat">Sailboat</option>
+                    <option value="motorboat">Motorboat</option>
+                    <option value="yacht">Yacht</option>
+                </select><br><br>
+
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" required><br><br>
+
+                <label for="description">Description:</label><br>
+                <input type="text" id="description" required><br><br>
+
+                <label for="price">Price:</label><br>
+                <input type="number" id="price" required><br><br>
+
+                <label for="capacity">Capacity:</label><br>
+                <input type="number" id="capacity" required><br><br>
+
+                <div id="boat-type-extra-fields"></div>
+
+                <button type="button" class="filter-button" onclick="addNewBoat()">Create Boat</button>
+            </form>
+        </div>
+    `;
+    }
+
+    function showBoatTypeFields() {
+        const type = document.getElementById('boatType').value;
+        const extraFields = document.getElementById('boat-type-extra-fields');
+        extraFields.innerHTML = '';
+
+        if (type === 'sailboat') {
+            extraFields.innerHTML = `
+            <label for="sails">Number of Sails:</label><br>
+            <input type="number" id="sails" required><br><br>
+        `;
+        } else if (type === 'motorboat') {
+            extraFields.innerHTML = `
+            <label for="motors">Number of Motors:</label><br>
+            <input type="number" id="motors" required><br><br>
+            <label for="material">Material:</label><br>
+            <input type="text" id="material" required><br><br>
+        `;
+        } else if (type === 'yacht') {
+            extraFields.innerHTML = `
+            <label for="rooms">Number of Rooms:</label><br>
+            <input type="number" id="rooms" required><br><br>
+            <label for="extraBoats">Number of Extra Boats:</label><br>
+            <input type="number" id="extraBoats" required><br><br>
+        `;
+        }
+    }
+
+
+    function addNewBoat() {
+        const type = document.getElementById('boatType').value;
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const price = parseFloat(document.getElementById('price').value);
+        const capacity = parseInt(document.getElementById('capacity').value);
+
+        if (!type || !name || !description || isNaN(price) || isNaN(capacity)) {
+            alert('Please fill out all required fields.');
+            return;
+        }
+
+        let boatData = {
+            name,
+            description,
+            price,
+            capacity,
+            isRented: false,
+            boatType: type
+        };
+
+        // Add extra fields based on boat type
+        if (type === 'sailboat') {
+            boatData.sails = parseInt(document.getElementById('sails').value);
+        } else if (type === 'motorboat') {
+            boatData.motors = parseInt(document.getElementById('motors').value);
+            boatData.material = document.getElementById('material').value;
+        } else if (type === 'yacht') {
+            boatData.rooms = parseInt(document.getElementById('rooms').value);
+            boatData.extraBoats = parseInt(document.getElementById('extraBoats').value);
+        }
+
+        fetch('/boat/addBoat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(boatData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to create boat');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Boat created successfully!');
+                loadBoats(); // reload boats list
+            })
+            .catch(error => {
+                console.error('Error creating boat:', error);
+            });
+    }
+
+</script>
+
+</body>
+</html>
