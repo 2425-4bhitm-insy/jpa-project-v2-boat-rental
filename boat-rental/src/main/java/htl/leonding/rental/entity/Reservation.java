@@ -66,5 +66,9 @@ public class Reservation {
         this.endDate = endDate;
     }
 
+    public Long getId() {
+        return this.id;
+    }
+
     //TODO add attributes
 }

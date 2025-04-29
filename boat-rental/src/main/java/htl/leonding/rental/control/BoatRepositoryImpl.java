@@ -1,14 +1,12 @@
 package htl.leonding.rental.control;
 
-import htl.leonding.rental.entity.Boat;
-import htl.leonding.rental.entity.Motorboat;
-import htl.leonding.rental.entity.Sailboat;
-import htl.leonding.rental.entity.Yacht;
+import htl.leonding.rental.entity.*;
 import htl.leonding.rental.entity.dto.BoatDTO;
 import htl.leonding.rental.entity.dto.RentalDTO;
 import htl.leonding.rental.entity.dto.TopBoatDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +25,30 @@ public class BoatRepositoryImpl implements BoatRepository {
 
     @Override
     public void remove(Boat boat) {
-        entityManager.remove(boat);
+        List<Lease> leases = entityManager.createQuery(
+                        "SELECT l FROM br_lease l WHERE l.rentalItems.id = :boatId", Lease.class)
+                .setParameter("boatId", boat.getId())
+                .getResultList();
+
+        for (Lease lease : leases) {
+            Reservation reservation = lease.getReservation();
+
+            entityManager.remove(lease);
+
+            Long count = entityManager.createQuery(
+                            "SELECT COUNT(l) FROM br_lease l WHERE l.reservation.id = :reservationId", Long.class)
+                    .setParameter("reservationId", reservation.getId())
+                    .getSingleResult();
+
+            if (count == 0) {
+                entityManager.remove(reservation);
+            }
+        }
+
+        Boat managedBoat = entityManager.find(Boat.class, boat.getId());
+        if (managedBoat != null) {
+            entityManager.remove(managedBoat);
+        }
     }
 
     @Override
@@ -66,6 +87,7 @@ public class BoatRepositoryImpl implements BoatRepository {
     public List<RentalDTO> getAllBoatRentals() {
         return entityManager.createQuery(
                 "SELECT new htl.leonding.rental.entity.dto.RentalDTO( " +
+                        "b.id, " +
                         "b.name, " +
                         "COALESCE(CONCAT(c.firstname, ' ', c.lastname), '---'), " +
                         "COALESCE(r.startDate, NULL), " +

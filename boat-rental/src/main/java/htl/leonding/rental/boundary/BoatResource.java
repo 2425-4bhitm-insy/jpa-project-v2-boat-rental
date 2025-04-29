@@ -138,4 +138,22 @@ public class BoatResource {
     public List<TopBoatDTO> getTopRevenueBoats() {
         return boatRepository.getTopRevenueBoats();
     }
+
+    @DELETE
+    @Path("/delete/{id}")
+    @Transactional
+    public Response deleteBoat(@PathParam("id") Long id) {
+        Boat boat = boatRepository.getBoat(id);
+        if (boat == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Boat not found").build();
+        }
+
+        if (boat.isRented()) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Cannot delete active boat").build();
+        }
+
+        boatRepository.remove(boat);
+        return Response.ok().build();
+    }
+
 }
