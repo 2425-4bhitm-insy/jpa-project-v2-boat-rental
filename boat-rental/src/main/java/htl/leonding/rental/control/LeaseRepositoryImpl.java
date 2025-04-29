@@ -12,6 +12,9 @@ public class LeaseRepositoryImpl implements LeaseRepository {
 
     @Inject EntityManager entityManager;
 
+    public LeaseRepositoryImpl(EntityManager em) {
+    }
+
     @Override
     public void add(Lease lease) {
         entityManager.persist(lease);
