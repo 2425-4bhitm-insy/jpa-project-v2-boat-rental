@@ -1,56 +1,176 @@
-GET http://localhost:8080/leases/1
-Content-Type: */*
-
-###
-
+### Boat: Alle Boote abrufen
 GET http://localhost:8080/boat/allBoats
-Content-Type: */*
-
-###
-
-GET http://localhost:8080/boat/singleBoat/1
-Content-Type: */*
+Accept: application/json
 
 ###
 
 GET http://localhost:8080/boat/allYachts
-Content-Type: */*
+Accept: application/json
 
 ###
 
-POST http://localhost:8080/leases/addLease
+GET http://localhost:8080/boat/singleBoat/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/boat/singleBoat/2
+Accept: application/json
+
+
+### Boat: Verfügbarkeit prüfen
+GET http://localhost:8080/boat/availableBoats?startDate=2025-05-02&endDate=2025-05-04
+Accept: application/json
+
+###
+
+GET http://localhost:8080/boat/availableBoats?startDate=2025-07-01&endDate=2025-07-05
+Accept: application/json
+
+
+### Boat: Boot mieten
+PUT http://localhost:8080/boat/rent/3
+Content-Type: application/json
+
+###
+
+PUT http://localhost:8080/boat/rent/2
+Content-Type: application/json
+
+
+
+### Boat: Alle Vermietungen auflisten
+GET http://localhost:8080/boat/allRentals
+Accept: application/json
+
+###
+
+GET http://localhost:8080/boat/topRevenueBoats
+Accept: application/json
+
+
+
+### Customer: Kunde abrufen
+GET http://localhost:8080/customers/1
+Accept: application/json
+
+###
+
+GET http://localhost:8080/customers/2
+Accept: application/json
+
+
+### Customer: Kunde hinzufügen
+POST http://localhost:8080/customers
 Content-Type: application/json
 
 {
-  "reservation": 1,
-  "rentalItems": 2
+  "firstname": "Max",
+  "lastname": "Muster",
+  "address": "Teststraße 12",
+  "telephonenumber": "0664-1234567",
+  "email": "max.muster@example.com"
 }
 
 ###
 
-GET http://localhost:8080/payments
-Content-Type: */*
+POST http://localhost:8080/customers
+Content-Type: application/json
+
+{
+  "firstname": "Lisa",
+  "lastname": "Huber",
+  "address": "Ringstraße 5",
+  "telephonenumber": "0676-9876543",
+  "email": "lisa.huber@example.com"
+}
+
+
+### Customer: Kunden mit mehreren Reservierungen
+GET http://localhost:8080/customers/topCustomers
+Accept: application/json
+
+
+
+### Lease: Alle Leases abrufen
+GET http://localhost:8080/leases
+Accept: application/json
 
 ###
 
-GET http://localhost:8080/payments/1
-Content-Type: */*
+GET http://localhost:8080/leases/3
+Accept: application/json
+
+###
+
+GET http://localhost:8080/leases/2
+Accept: application/json
+
+
+### Lease: Neues Lease erstellen
+POST http://localhost:8080/leases
+Content-Type: application/json
+
+{
+  "reservation": { "id": 1 },
+  "rentalItems": { "id": 3 }
+}
+
+###
+
+POST http://localhost:8080/leases
+Content-Type: application/json
+
+{
+  "reservation": { "id": 2 },
+  "rentalItems": { "id": 4 }
+}
+
+
+
+### Payment: Alle Zahlungen abrufen
+GET http://localhost:8080/payments
+Accept: application/json
+
+
+### Payment: Zahlung hinzufügen
+POST http://localhost:8080/payments
+Content-Type: application/json
+
+{
+  "amount": 150.0,
+  "paymentDate": "2025-05-10",
+  "reservation": { "id": 1 }
+}
 
 ###
 
 POST http://localhost:8080/payments
 Content-Type: application/json
-Accept: application/json
 
 {
-  "reservation": {
-    "reservation_id": 3
-  },
-  "amount": 150.0,
-  "paymentDate": "2025-05-01"
+  "amount": 80.0,
+  "paymentDate": "2025-06-01",
+  "reservation": { "id": 2 }
 }
+
+
+### Payment: Zahlung löschen
+DELETE http://localhost:8080/payments/2
+Accept: application/json
+
+
+### Reservation: Alle Reservierungen abrufen
+GET http://localhost:8080/reservations
+Accept: application/json
 
 ###
 
-GET http://localhost:8080/reservations
-Content-Type: */*
+GET http://localhost:8080/reservations/3
+Accept: application/json
+
+###
+
+GET http://localhost:8080/reservations/2
+Accept: application/json
+
