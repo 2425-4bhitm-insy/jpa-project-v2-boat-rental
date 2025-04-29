@@ -44,7 +44,8 @@ INSERT INTO br_extras (id, name, description, price) VALUES
 -- Insert Reservations
 INSERT INTO br_reservation (id, customer_customer_id, employee_employee_id, startdate, enddate) VALUES
                                                                                                     (1, 1, 1, '2025-05-01', '2025-05-05'),
-                                                                                                    (2, 2, 2, '2025-06-10', '2025-06-15');
+                                                                                                    (2, 2, 2, '2025-06-10', '2025-06-15'),
+                                                                                                    (3, 1, 1, '2025-04-28', '2025-05-09');
 
 -- Insert Leases (leasing Boats and Extras)
 -- Leases link a reservation to rentalitems (boats or extras)
@@ -52,7 +53,8 @@ INSERT INTO br_lease (id, reservation_id, rentalitems_id) VALUES
                                                               (1, 1, 1), -- John leases Sea Breeze (Boat)
                                                               (2, 1, 4), -- John leases Snorkel Set (Extra)
                                                               (3, 2, 2), -- Jane leases Wave Rider (Boat)
-                                                              (4, 2, 5); -- Jane leases Life Jackets (Extra)
+                                                              (4, 2, 5), -- Jane leases Life Jackets (Extra)
+                                                              (5, 3, 1); -- John leases Sea Breeze (Boat) right now
 
 -- Insert Payments
 INSERT INTO br_payment (id, amount, paymentdate, reservation_id) VALUES
@@ -62,8 +64,6 @@ INSERT INTO br_payment (id, amount, paymentdate, reservation_id) VALUES
 SELECT setval('br_customer_customer_id_seq', (SELECT max(customer_id) FROM br_customer));
 SELECT setval('br_employee_employee_id_seq', (SELECT max(employee_id) FROM br_employee));
 SELECT setval('br_rentalitems_id_seq', (SELECT max(id) FROM rentalitems));
---SELECT setval('br_boat_id_seq', (SELECT max(id) FROM br_boat)); -- might be optional depending on inheritance
---SELECT setval('br_extras_id_seq', (SELECT max(id) FROM br_extras));
 SELECT setval('br_reservation_id_seq', (SELECT max(id) FROM br_reservation));
 SELECT setval('br_lease_id_seq', (SELECT max(id) FROM br_lease));
 SELECT setval('br_payment_id_seq', (SELECT max(id) FROM br_payment));
