@@ -139,7 +139,61 @@ List<Employee> employees = query.getResultList();
 
 == Special Cases:
 
-=== Table Per Class vs Single Class Per Table
+=== Table Per Class vs Single Class Per Table vs Joined
+Es gibt bei der Vererbung verschiedene Strategien. Ein Special Case auf den wir gestoßen sind, ist, dass nicht verschiedene Vererbungsstrategien verwendet werden können, wenn es mehrere Vererbungen in einem Baum gibt.
+
+Dies ist unsere Struktur:
+
+----
+RentalItem
+    - Extras
+    - Boat
+        - Sailboat
+        - Motorboat
+        - Yacht
+----
+
+`Extras.java` und `Boat.java` sind Erb-Klassen der Elternklasse `RentalItems.java`.
+
+Boat ist aber auch eine Elternklasse -> `Sailboat.java`, `Motorboat.java` und `Yacht.java` erben alle von `Boat.java`.
+
+Unser erster Versuch war es, für die Klasse RentalItems die `JOINED`-Vererbungs-Strategie zu verwenden und für die Klasse Boat die `SINGLE_TABLE`-Strategie zu verwenden. Das ist aber nicht möglich.
+
+JPA sieht eine Vererbungshierarchie als zusammenhängend an. Sobald man mit @Inheritance(strategy = …) arbeitest, gilt das für die gesamte Klasse und alle ihre Subklassen. Hibernate erstellt dann einen konkreten Mapping-Plan für die ganze Hierarchie, und der muss einheitlich sein.
+
+Das bedeutet:
+
+* Wenn man @Inheritance(strategy = JOINED) in der obersten Klasse setzt, gilt das für alle Unterklassen – auch wenn eine davon selbst wieder Basisklasse für weitere Klassen ist.
+
+* Man kann nicht in einer Unterklasse erneut @Inheritance(strategy = SINGLE_TABLE) setzen. Das wird von JPA ignoriert oder führt zu Laufzeitfehlern.
+
+`Wir haben uns für die einheitliche JOINED-Vererbungs-Strategie entschieden.`
+
+Unterschiede (JOINED - SINGLE_TABLE - TABLE_PER_CLASS)
+
+[cols="1,1,1,1,1"]
+|===
+|Strategie | Tabellenstruktur | Geschwindigkeit | Vorteil | Nachteil
+
+| `SINGLE_TABLE`
+| Eine Tabelle für alle Klassen
+| Schnell beim Lesen
+| Einfach, performant
+| Viele null-Spalten
+
+| `JOINED`
+| Eine Tabelle pro Klasse + Join
+| Mittel (wegen Joins)
+| Saubere Normalisierung
+| Langsamer wegen SQL Joins
+
+| `TABLE_PER_CLASS`
+| Eine Tabelle pro konkreter Klasse
+| Schnell (nur eigene Tabelle)
+| Keine Joins nötig beim Lesen
+| Redundanz, UNIONs bei Abfragen
+
+|===
 
 === Wieso benutzen wir ein Interface?
 * Warum wird das Interface in der BoatResource-Klasse verwendet?
